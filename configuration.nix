@@ -136,6 +136,8 @@
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
+  programs.vim.defaultEditor = true;
+
   programs.zsh.autosuggestions.enable = true;
   programs.zsh.enableCompletion = true;
   programs.zsh.syntaxHighlighting.enable = true;
