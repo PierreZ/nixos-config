@@ -62,6 +62,7 @@
     unzip
     vscode
     keybase keybase-gui
+    gnome3.gnome-tweak-tool
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -133,6 +134,8 @@
   };
   # zsh
   programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
+
   programs.zsh.autosuggestions.enable = true;
   programs.zsh.enableCompletion = true;
   programs.zsh.syntaxHighlighting.enable = true;
