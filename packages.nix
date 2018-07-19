@@ -11,6 +11,7 @@
 			zsh
 			oh-my-zsh
 			stow
+			htop
 			gnupg
 			keepassx
 			ripgrep
@@ -29,5 +30,8 @@
 			vscode
 			keybase keybase-gui
 			gnome3.gnome-tweak-tool
+			numix-gtk-theme numix-cursor-theme numix-icon-theme-circle
+			terminator
+			cairo
 			];
 }

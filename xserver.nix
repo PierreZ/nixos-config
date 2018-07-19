@@ -10,9 +10,8 @@
 	services.xserver.desktopManager.gnome3.enable = true;
 	services.xserver.layout = "fr";
 	services.xserver.displayManager.gdm.enable = true;
-  services.gnome3.gnome-keyring.enable = true;
-  security.pam.services.pierre.enableGnomeKeyring = true;
-  
+  	services.gnome3.gnome-keyring.enable = true;
+  	security.pam.services.gdm.enableGnomeKeyring = true;
 # Driver
 #nixpkgs.config.allowUnfree = true;
 #services.xserver.videoDrivers = [ "nvidia" ];
@@ -43,6 +42,8 @@
 				terminus_font
 				ttf_bitstream_vera
 				ubuntu_font_family
+				emojione
+				noto-fonts
 		];
 	};
 }

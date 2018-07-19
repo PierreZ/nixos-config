@@ -12,11 +12,15 @@
 			./packages.nix
 			./user-pierre.nix
 			./zsh.nix
+			./virtualization.nix
 		];
 
 	boot.kernelPackages = pkgs.linuxPackages_latest;
 
 	nixpkgs.config.allowUnfree = true;
+
+	programs.ssh.startAgent = true;
+	programs.gnupg.agent.enable = true;
 
 # Use the systemd-boot EFI boot loader.
 	boot.loader.systemd-boot.enable = true;

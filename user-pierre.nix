@@ -5,7 +5,7 @@
 	users.extraUsers.pierre = {
 		createHome = true;
 		shell = pkgs.zsh;
-		extraGroups = [ "wheel" "video" "audio" "disk" "networkmanager" ];
+		extraGroups = [ "wheel" "video" "audio" "disk" "networkmanager" "docker" ];
 		isNormalUser = true;
 		group = "users";
 		home = "/home/pierre";
