@@ -118,7 +118,7 @@
     openssl
     rustup
     gcc
-    jetbrains.idea-community
+    jetbrains.idea-ultimate
     starship
     germinal
     tmux
@@ -131,6 +131,8 @@
     exa
     discord
     slack
+    dsniff
+    protobuf
   ];
 
   programs.zsh.ohMyZsh = {
@@ -161,10 +163,10 @@
   # virtualization
   virtualisation.docker.enable = true;
 
-
   # auto-upgrade
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = false;
+  services.fwupd.enable = true;
 
   # Home-manager
   home-manager.useGlobalPkgs = true;

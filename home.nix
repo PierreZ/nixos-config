@@ -107,9 +107,17 @@
       pkgs.httpie
       pkgs.keepassxc
       pkgs.keybase-gui
+      pkgs.hugo
     ];
 
+    dconf.settings = {
+      "org.gnome.desktop.remote-desktop.rdp" = {
+        screen-share-mode = "extend";
+      };
+
+    };
 
   };
+
 
 }
