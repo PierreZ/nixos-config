@@ -5,12 +5,16 @@
 { config, pkgs, ... }:
 
 {
+  nix = {
+    package = pkgs.nixFlakes;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
+
   imports =
     [
-      # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      <home-manager/nixos>
-      ./home.nix
     ];
 
   # Bootloader.
@@ -27,7 +31,7 @@
   boot.initrd.luks.devices."luks-12e0694e-1430-4752-8852-5c97c9f1e4c6".device = "/dev/disk/by-uuid/12e0694e-1430-4752-8852-5c97c9f1e4c6";
   boot.initrd.luks.devices."luks-12e0694e-1430-4752-8852-5c97c9f1e4c6".keyFile = "/crypto_keyfile.bin";
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "xps15"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -41,18 +45,18 @@
   time.timeZone = "Europe/Paris";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.utf8";
+  i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
-    LC_ADDRESS = "fr_FR.utf8";
-    LC_IDENTIFICATION = "fr_FR.utf8";
-    LC_MEASUREMENT = "fr_FR.utf8";
-    LC_MONETARY = "fr_FR.utf8";
-    LC_NAME = "fr_FR.utf8";
-    LC_NUMERIC = "fr_FR.utf8";
-    LC_PAPER = "fr_FR.utf8";
-    LC_TELEPHONE = "fr_FR.utf8";
-    LC_TIME = "fr_FR.utf8";
+    LC_ADDRESS = "fr_FR.UTF-8";
+    LC_IDENTIFICATION = "fr_FR.UTF-8";
+    LC_MEASUREMENT = "fr_FR.UTF-8";
+    LC_MONETARY = "fr_FR.UTF-8";
+    LC_NAME = "fr_FR.UTF-8";
+    LC_NUMERIC = "fr_FR.UTF-8";
+    LC_PAPER = "fr_FR.UTF-8";
+    LC_TELEPHONE = "fr_FR.UTF-8";
+    LC_TIME = "fr_FR.UTF-8";
   };
 
   # Enable the X11 windowing system.
@@ -166,10 +170,20 @@
   # auto-upgrade
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = false;
+
+  services.acpid.enable = true;
+  services.thermald.enable = true;
   services.fwupd.enable = true;
 
   # Home-manager
   home-manager.useGlobalPkgs = true;
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.pierrez = {
+    isNormalUser = true;
+    description = "Pierre Zemb";
+    extraGroups = [ "docker" "networkmanager" "wheel" ];
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
