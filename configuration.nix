@@ -167,13 +167,14 @@
   # virtualization
   virtualisation.docker.enable = true;
 
-  # auto-upgrade
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.allowReboot = false;
-
   services.acpid.enable = true;
   services.thermald.enable = true;
   services.fwupd.enable = true;
+
+  nix.gc.automatic = true;
+  nix.gc.dates = "daily";
+  nix.gc.persistent = true;
+  nix.gc.options = "--delete-older-than 60d";
 
   # Home-manager
   home-manager.useGlobalPkgs = true;
