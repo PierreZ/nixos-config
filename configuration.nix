@@ -27,6 +27,8 @@
     "/crypto_keyfile.bin" = null;
   };
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   # Enable swap on luks
   boot.initrd.luks.devices."luks-12e0694e-1430-4752-8852-5c97c9f1e4c6".device = "/dev/disk/by-uuid/12e0694e-1430-4752-8852-5c97c9f1e4c6";
   boot.initrd.luks.devices."luks-12e0694e-1430-4752-8852-5c97c9f1e4c6".keyFile = "/crypto_keyfile.bin";
@@ -137,6 +139,12 @@
     slack
     dsniff
     protobuf
+    tdesktop
+    patchelf
+    direnv
+    nix-direnv
+    fd
+    jq
   ];
 
   programs.zsh.ohMyZsh = {
@@ -178,6 +186,8 @@
 
   # Home-manager
   home-manager.useGlobalPkgs = true;
+
+  hardware.bluetooth.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.pierrez = {

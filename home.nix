@@ -37,6 +37,7 @@
   };
 
   programs.exa.enable = true;
+  programs.exa.enableAliases = true;
 
   programs.zsh = {
     enable = true;
@@ -59,11 +60,6 @@
         "yarn"
         "vim-interaction"
       ];
-    };
-    shellAliases = {
-      ls = "ls --color=auto -F";
-      l = "exa --icons --git-ignore --git -F --extended";
-      ll = "exa --icons --git-ignore --git -F --extended -l";
     };
   };
 
@@ -94,5 +90,9 @@
     pkgs.keepassxc
     pkgs.keybase-gui
     pkgs.hugo
+    pkgs.zotero
+    pkgs.inkscape
+    pkgs.zoom-us
+    pkgs.gimp
   ];
 }
