@@ -94,5 +94,7 @@
     pkgs.inkscape
     pkgs.zoom-us
     pkgs.gimp
+    pkgs.libsForQt5.okular
+    pkgs._1password-gui
   ];
 }
