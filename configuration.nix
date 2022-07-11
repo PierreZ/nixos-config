@@ -184,6 +184,8 @@
   nix.gc.persistent = true;
   nix.gc.options = "--delete-older-than 60d";
 
+  programs.gpaste.enable = true;
+
   # Home-manager
   home-manager.useGlobalPkgs = true;
 
