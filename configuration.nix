@@ -6,7 +6,6 @@
 
 {
   nix = {
-    package = pkgs.nixFlakes;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
@@ -146,6 +145,8 @@
     fd
     jq
   ];
+
+  programs.zsh.enable = true;
 
   programs.zsh.ohMyZsh = {
     enable = true;
