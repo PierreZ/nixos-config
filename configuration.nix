@@ -153,15 +153,11 @@
     plugins = [ "git" "sudo" ];
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryFlavor = "gnome3";
+  };
 
-  # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
@@ -196,6 +192,7 @@
   users.users.pierrez = {
     isNormalUser = true;
     description = "Pierre Zemb";
+    shell = pkgs.zsh;
     extraGroups = [ "docker" "networkmanager" "wheel" ];
   };
 

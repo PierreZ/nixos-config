@@ -98,4 +98,19 @@
     pkgs.gnome.gpaste
   ];
 
+  programs.tmux.enable = true;
+  programs.tmux.extraConfig =
+    ''
+      new-session
+      set -g mouse on
+    '';
+
+  dconf.settings = {
+    "org/gnome/Germinal" = {
+      forecolor = "white";
+    };
+  };
+  programs.bat.enable = true;
+
+
 }
