@@ -67,7 +67,6 @@
   programs.vscode = {
     enable = true;
     extensions = with pkgs.vscode-extensions; [
-      # Some example extensions...
       vscodevim.vim
       jnoortheen.nix-ide
     ];
