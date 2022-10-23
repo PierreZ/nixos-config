@@ -96,6 +96,8 @@
     pkgs.libsForQt5.okular
     pkgs._1password-gui
     pkgs.gnome.gpaste
+    pkgs.kafkactl
+    pkgs.jetbrains.idea-community
   ];
 
   programs.tmux.enable = true;

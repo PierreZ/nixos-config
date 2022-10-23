@@ -123,7 +123,6 @@
     openssl
     rustup
     gcc
-    jetbrains.idea-ultimate
     starship
     germinal
     tmux
