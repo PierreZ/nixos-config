@@ -143,6 +143,8 @@
     nix-direnv
     fd
     jq
+    dogdns
+    libiconv
   ];
 
   programs.zsh.enable = true;
