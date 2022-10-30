@@ -4,6 +4,7 @@ let
   websites = {
     portfolio = { localPath = "/var/www"; remotePath = "https://github.com/PierreZ/portfolio.git"; remoteBranch = "master"; };
   };
+  hewAddress = "127.0.0.1:8090";
 
 in
 {
@@ -68,7 +69,7 @@ in
 
   virtualisation.oci-containers.containers.hew = {
     autoStart = true;
-    ports = [ "127.0.0.1:8090:8080" ];
+    ports = [ "${hewAddress}:8080" ];
     image = "helloexoworld/hands-on:latest";
   };
 
@@ -87,6 +88,9 @@ in
       enable = false;
       acmeCA = config.security.acme.defaults.server;
       email = "contact@pierrezemb.fr";
+      virtualHosts."hew.pierrezemb.fr".extraConfig = ''
+        reverse_proxy ${hewAddress}
+      '';
       extraConfig = ''
             pierrezemb.fr {
              file_server
@@ -97,10 +101,6 @@ in
               format console
              }
             } 
-
-            hew.pierrezemb.fr {
-             reverse_proxy 127.0.0.1:8090
-            }
 
             helloexo.world {
         	    file_server
