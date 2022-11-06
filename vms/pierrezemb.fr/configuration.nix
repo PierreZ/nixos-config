@@ -73,6 +73,17 @@ in
           Unit = "pull-${w.name}.service";
         };
       };
+      # ensure bootstrap is runned on boot, somehow enable is not enough
+      timers."start-bootstrap-${w.name}" = {
+        enable = true;
+        after = [ "network.target" ];
+        wantedBy = [ "timers.target" ];
+        partOf = [ "start-bootstrap-${w.name}.service" ];
+        timerConfig = {
+           OnBootSec = "5min";
+          Unit = "bootstrap-${w.name}.service";
+        };
+      };
 
     })
     { }
