@@ -12,7 +12,9 @@ in
   environment.systemPackages = with pkgs; [
     cloud-init
     caddy
+    htop
     docker
+    git
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -41,24 +43,29 @@ in
     (acc: w: acc // {
       # Update unit 
       services."pull-${w.name}" = {
+        after = [ "network.target" ];
         serviceConfig.Type = "oneshot";
-        serviceConfig.User = "hugo";
+        serviceConfig.User = "caddy";
         path = with pkgs; [ git ];
         script = ''
-          cd ${w.localPath} && git pull origin ${w.remoteBranch}
+          cd ${w.localPath}/${w.name} && git pull origin ${w.remoteBranch}
         '';
       };
       # Bootstrap unit
       services."bootstrap-${w.name}" = {
+        after = [ "network.target" ];
+        enable = true;
         serviceConfig.Type = "oneshot";
         path = with pkgs; [ git ];
         script = ''
-          mkdir -p ${w.localPath} && git clone ${w.remotePath} -b ${w.remoteBranch} && chown -R hugo: ${w.remotePath}
+          mkdir -p ${w.localPath} && cd ${w.localPath} && git clone ${w.remotePath} -b ${w.remoteBranch} && chown -R caddy: ${w.localPath}/${w.name}
         '';
         unitConfig.ConditionPathExists = "!${w.localPath}/${w.name}";
       };
       # Timer unit
       timers."pull-${w.name}" = {
+        enable = true;
+        after = [ "network.target" ];
         wantedBy = [ "timers.target" ];
         partOf = [ "pull-${w.name}.service" ];
         timerConfig = {
@@ -71,6 +78,7 @@ in
     { }
     websites;
 
+  virtualisation.oci-containers.backend = "docker";
   virtualisation.oci-containers.containers.hew = {
     autoStart = true;
     ports = [ "${hewAddress}:8080" ];
@@ -89,27 +97,22 @@ in
     };
 
     caddy = {
-      enable = false;
-      acmeCA = config.security.acme.defaults.server;
+      enable = true;
       email = "contact@pierrezemb.fr";
+      globalConfig = ''
+        admin off
+      '';
       virtualHosts."hew.pierrezemb.fr".extraConfig = ''
         reverse_proxy ${hewAddress}
       '';
-      extraConfig = ''
-            pierrezemb.fr {
-             file_server
-             root * /var/www/pierrezemb
-              metrics /metrics
-             log {
-              output stdout
-              format console
-             }
-            } 
-
-            helloexo.world {
-        	    file_server
-             root * /var/www/helloexo
-            }
+      virtualHosts."pierrezemb.fr".extraConfig = ''
+        file_server
+        root * /var/www/pierrezemb
+        metrics /metrics
+      '';
+      virtualHosts."helloexo.world".extraConfig = ''
+        file_server
+        root * /var/www/helloexo
       '';
     };
   };
