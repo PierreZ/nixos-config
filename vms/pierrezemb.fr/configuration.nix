@@ -1,9 +1,10 @@
 { lib, config, pkgs, ... }:
 
 let
-  websites = {
-    portfolio = { localPath = "/var/www"; remotePath = "https://github.com/PierreZ/portfolio.git"; remoteBranch = "master"; };
-  };
+  websites = [
+    { name = "portfolio"; localPath = "/var/www"; remotePath = "https://github.com/PierreZ/portfolio.git"; remoteBranch = "master"; }
+  ];
+
   hewAddress = "127.0.0.1:8090";
 
 in
@@ -35,10 +36,11 @@ in
     "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC/UZhx9DiyKdsOvF5QwKJnq+th8lTurJVwPZZ2VyNGZwOgYorul2RNZNDeD9IzOT25TezUcbkZEFRqsuxjpEvx9dpyrhqj/waughSqeJaRcLmqs3+JqDCricyVIs0upiGSPMsSUMy/Rzxb5TCj1ZHope8WTwxkaAlNd7kZ2grJIduMnz9e4kgP11HqCTGopfeBplTcn4ovs61OiN57HiYIsvh5vXahu4HY6SsvAZ92i3FvghO0EwR7I8DXuMgyzA2mXnidzxyMJ2Bu1JPytCJeCC3O+wtWFCOgh8LmJ1eufn52OxbANsXw9jlWJwpx3zecEcUCfHb4pZrEYa4hlh2/reSYv9W1NFE46O5KfqmoGtbUYFJCKUJH83Ju05c0uWS+SU7wr/xKdwWvXhjt2ZgWIJ852k0rle8Is3WA+WV5Rx24xX/FMXpGmISLt3C2FUCUGvNnsUeVF0KvRibyi/AGiyI7up6te7NrEcL/EUd6c2wFUk+31TCtqcICf9JJEQboedgwv83rgLPBrKMfxcMPE4vvPZPV6sATelPBsgZ8p5hRqc95HGwIsS2LFppEq9Z5eDJOiXi9FgQlIow9XBWnmlZQRja8nvkuBVpRiA4Mv31VWgV4hzIOYx72WNGmTQBMY4SR9hpE2SVHD2YznXY38o6V3kpMPOwVVCeoToV6jw== contact@pierrezemb.fr" # content of authorized_keys file
   ];
 
-  systemd = lib.mapAttrs'
-    (name: w: {
+  # Build list of systemd for each website
+  systemd = lib.foldl'
+    (acc: w: acc // {
       # Update unit 
-      services."pull-${name}" = {
+      services."pull-${w.name}" = {
         serviceConfig.Type = "oneshot";
         serviceConfig.User = "hugo";
         path = with pkgs; [ git ];
@@ -47,24 +49,26 @@ in
         '';
       };
       # Bootstrap unit
-      services."bootstrap-${name}" = {
+      services."bootstrap-${w.name}" = {
         serviceConfig.Type = "oneshot";
         path = with pkgs; [ git ];
         script = ''
           mkdir -p ${w.localPath} && git clone ${w.remotePath} -b ${w.remoteBranch} && chown -R hugo: ${w.remotePath}
         '';
-        unitConfig.ConditionPathExists = "!${w.localPath}/${name}";
+        unitConfig.ConditionPathExists = "!${w.localPath}/${w.name}";
       };
       # Timer unit
-      timers."pull-${name}" = {
+      timers."pull-${w.name}" = {
         wantedBy = [ "timers.target" ];
-        partOf = [ "pull-${name}.service" ];
+        partOf = [ "pull-${w.name}.service" ];
         timerConfig = {
           OnCalendar = "minutely";
-          Unit = "pull-${name}.service";
+          Unit = "pull-${w.name}.service";
         };
       };
+
     })
+    { }
     websites;
 
   virtualisation.oci-containers.containers.hew = {
