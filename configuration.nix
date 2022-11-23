@@ -159,19 +159,6 @@
     pinentryFlavor = "gnome3";
   };
 
-  # nvidia
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl.enable = true;
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-  hardware.nvidia.powerManagement.enable = true;
-  
-  # steam
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = false; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = false; # Open ports in the firewall for Source Dedicated Server
-  };
-
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
