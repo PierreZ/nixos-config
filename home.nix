@@ -98,6 +98,7 @@
     pkgs.gnome.gpaste
     pkgs.kafkactl
     pkgs.jetbrains.idea-community
+    pkgs.android-studio
   ];
 
   programs.tmux.enable = true;
