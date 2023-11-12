@@ -86,6 +86,7 @@
     pkgs.inkscape
     pkgs.zoom-us
     pkgs.gimp
+    pkgs.zellij
     pkgs.libsForQt5.okular
     pkgs._1password-gui
     pkgs.gnome.gpaste
