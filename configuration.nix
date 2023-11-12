@@ -132,7 +132,8 @@
     tree
     rsync
     ripgrep
-    exa
+    eza
+    neovim
     discord
     slack
     dsniff
