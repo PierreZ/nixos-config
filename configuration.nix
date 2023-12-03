@@ -146,6 +146,7 @@
     jq
     dogdns
     libiconv
+    nixos-generators
   ];
 
   programs.zsh.enable = true;
