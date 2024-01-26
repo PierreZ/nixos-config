@@ -11,8 +11,18 @@
   };
 
   programs.vim.enable = true;
-
   programs.jq.enable = true;
+
+  programs.fish = {
+    enable = true;
+    interactiveShellInit = ''
+      starship init fish | source
+    '';
+    functions = {
+      fish_greeting = "";
+    };
+  };
+
 
   programs.dircolors.enable = true;
 
@@ -20,8 +30,7 @@
 
   programs.autojump = {
     enable = true;
-    enableBashIntegration = true;
-    enableZshIntegration = true;
+    enableFishIntegration = true;
   };
 
   programs.direnv = {
@@ -32,31 +41,6 @@
 
   programs.eza.enable = true;
   programs.eza.enableAliases = true;
-
-  programs.zsh = {
-    enable = true;
-    autocd = true;
-    enableAutosuggestions = true;
-    enableCompletion = true;
-    syntaxHighlighting.enable = true;
-    oh-my-zsh = {
-      enable = true;
-      plugins = [
-        "git"
-        "python"
-        "docker"
-        "kubectl"
-        "rust"
-        "node"
-        "minikube"
-        "golang"
-        "sudo"
-        "yarn"
-        "vim-interaction"
-      ];
-    };
-  };
-
 
   programs.vscode = {
     enable = true;
@@ -104,11 +88,6 @@
       set -g mouse on
     '';
 
-  dconf.settings = {
-    "org/gnome/Germinal" = {
-      forecolor = "white";
-    };
-  };
   programs.bat.enable = true;
 
   programs.alacritty = {

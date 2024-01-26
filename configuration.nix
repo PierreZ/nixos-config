@@ -147,14 +147,8 @@
     dogdns
     libiconv
     nixos-generators
+    fish
   ];
-
-  programs.zsh.enable = true;
-
-  programs.zsh.ohMyZsh = {
-    enable = true;
-    plugins = [ "git" "sudo" ];
-  };
 
   programs.gnupg.agent = {
     enable = true;
@@ -190,11 +184,13 @@
 
   hardware.bluetooth.enable = true;
 
+  programs.fish.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.pierrez = {
     isNormalUser = true;
     description = "Pierre Zemb";
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
     extraGroups = [ "docker" "networkmanager" "wheel" ];
   };
 
