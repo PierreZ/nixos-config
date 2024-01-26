@@ -93,6 +93,8 @@
     pkgs.kafkactl
     pkgs.jetbrains.idea-community
     pkgs.alacritty
+    pkgs.google-chrome
+    pkgs.jetbrains.rust-rover
   ];
 
   programs.tmux.enable = true;
