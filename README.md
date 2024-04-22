@@ -1,5 +1,7 @@
-# NixOS Config
+# Nix flake files Config
+
+## MacOS
 
 ```bash
-sudo nixos-rebuild switch --upgrade --flake.#xps15
+  darwin-rebuild switch --flake /Users/pierrezemb/workspace/nix/nixos-config
 ```
