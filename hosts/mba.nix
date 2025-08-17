@@ -9,10 +9,14 @@
     [
       pkgs.home-manager
       pkgs.nixpkgs-fmt
+      pkgs.starship
+      pkgs.zellij
+      pkgs.autojump
+      pkgs.claude-code
     ];
 
-  # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
+    nixpkgs.config.allowUnfree = true;
+
   nix = {
     package = pkgs.nix;
     settings = {
@@ -43,12 +47,6 @@
   programs.zsh.enable = true;
 
   programs.nix-index.enable = true;
-
-  system.defaults = {
-    dock = {
-      autohide = true;
-    };
-  };
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
