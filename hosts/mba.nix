@@ -7,12 +7,9 @@
   # $ nix-env -qaP | grep wget
   environment.systemPackages =
     [
-      pkgs.home-manager
-      pkgs.nixpkgs-fmt
-      pkgs.starship
-      pkgs.zellij
-      pkgs.autojump
-      pkgs.claude-code
+      pkgs.git
+      pkgs.fish
+      pkgs.zsh
     ];
 
     nixpkgs.config.allowUnfree = true;
@@ -34,7 +31,6 @@
   environment.shells = with pkgs; [
     bashInteractive
     fish
-    zsh
   ];
 
   # Make Fish the default shell
@@ -43,8 +39,6 @@
   programs.fish.babelfishPackage = pkgs.babelfish;
   environment.variables.SHELL = "${pkgs.fish}/bin/fish";
 
-  # Install and setup ZSH to work with nix(-darwin) as well
-  programs.zsh.enable = true;
 
   programs.nix-index.enable = true;
 
