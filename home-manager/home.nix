@@ -13,8 +13,6 @@
     direnv
     zellij
     autojump
-    claude-code
-    vscode
     nixfmt-rfc-style
   ];
 
