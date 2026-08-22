@@ -2,22 +2,18 @@
 
 {
   nixpkgs.hostPlatform = "aarch64-darwin";
+  nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
-  environment.systemPackages =
-    [
-      pkgs.git
-      pkgs.fish
-      pkgs.zsh
-    ];
-
-    nixpkgs.config.allowUnfree = true;
+  environment.systemPackages = [
+    pkgs.git
+  ];
 
   nix = {
-    package = pkgs.nix;
     settings = {
-      "extra-experimental-features" = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
     };
     # Store management
     gc.automatic = true;
@@ -27,20 +23,28 @@
     optimise.interval.Hour = 4;
   };
 
+  # Let nix-darwin manage the user so the login shell can be set declaratively.
+  users.knownUsers = [ "pierrezemb" ];
+  users.users.pierrezemb = {
+    uid = 501;
+    home = "/Users/pierrezemb";
+    shell = pkgs.fish;
+  };
+
   # Add shells installed by nix to /etc/shells file
   environment.shells = with pkgs; [
     bashInteractive
     fish
   ];
 
-  # Make Fish the default shell
   programs.fish.enable = true;
   programs.fish.useBabelfish = true;
   programs.fish.babelfishPackage = pkgs.babelfish;
-  environment.variables.SHELL = "${pkgs.fish}/bin/fish";
-
 
   programs.nix-index.enable = true;
+
+  # Authenticate sudo with Touch ID
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog

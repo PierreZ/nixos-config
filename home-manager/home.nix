@@ -1,25 +1,21 @@
 { config, pkgs, ... }:
 
 {
-  home.username = "pierrezemb";
-  home.homeDirectory = "/Users/pierrezemb";
-
   home.stateVersion = "24.05";
 
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    eza
-    direnv
-    zellij
-    autojump
-    nixfmt-rfc-style
+    nixfmt
   ];
-
-  nixpkgs.config.allowUnfree = true;
 
   programs.git = {
     enable = true;
+    userName = "Pierre Zemb";
+    userEmail = "contact@pierrezemb.fr";
+    extraConfig = {
+      init.defaultBranch = "main";
+    };
   };
 
   programs.fish = {
@@ -30,6 +26,17 @@
   };
 
   programs.starship = {
+    enable = true;
+    enableFishIntegration = true;
+  };
+
+  programs.eza = {
+    enable = true;
+    enableFishIntegration = true;
+  };
+
+  # Successor to autojump: `z <dir>` to jump, `zi` for interactive picking.
+  programs.zoxide = {
     enable = true;
     enableFishIntegration = true;
   };

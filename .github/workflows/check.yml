@@ -1,13 +1,13 @@
+name: check
 on: [pull_request, push]
+
 jobs:
-  format:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: |
-          curl -L https://nixos.org/nix/install | sh
-          . ~/.nix-profile/etc/profile.d/nix.sh
-          nix-env -iA nixpkgs.nixUnstable
-          mkdir -p ~/.config/nix/
-          echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
-          nix flake check
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v16
+      - name: Check formatting
+        run: nix fmt -- --ci
+      - name: Build system closure
+        run: nix build .#darwinConfigurations.MacBook-Air-de-Pierre.system
